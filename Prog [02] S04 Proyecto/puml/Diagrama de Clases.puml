@@ -1,0 +1,89 @@
+@startuml
+
+' Definición de clases con atributos
+class Usuario {
+    - id: int
+    - nombre: String
+    - email: String
+    - fechanacimiento: Date
+    - password: String
+    - telefono: int
+
+    + registrar()
+    + iniciarSesion()
+    + cambiarContraseña()
+    + cerrarSesion()
+}
+
+class Paciente {
+    + metodoDePago()
+    + filtro()
+}
+
+class Terapeuta {
+    - sueldo: float
+    - descripcion: String
+    - pais: String
+    - tiempoLaboral: int
+    - especializaciones: String
+    - universidades: String
+
+    + grabarDocumento()
+}
+
+class Cita {
+    - id: int
+    - hora: Date
+    - tipo: String
+    - estado: String
+
+    + unirseSesion()
+    + verChat()
+}
+
+class FiltroBusqueda {
+    - especialidad: String
+    - precio: float
+    - enfoque: String
+
+    + aplicar(terapeutas: List<Terapeuta>)
+}
+
+class Reseña {
+    - id: int
+    - puntaje: int
+    - comentario: String
+    - fecha: Date
+
+    + publicar()
+}
+
+class Notificacion {
+    - id: int
+    - mensaje: String
+    - fechaEnvio: Date
+    - vista: boolean
+
+    + enviar()
+    + marcarComoVista()
+}
+
+' Relaciones de herencia
+Usuario <|-- Paciente
+Usuario <|-- Terapeuta
+
+' Relaciones de asociación
+Paciente "1" -- "0..*" Cita : agenda
+Terapeuta "1" -- "0..*" Cita : atiende
+
+Cita "1" -- "1" Paciente
+Cita "1" -- "1" Terapeuta
+
+Paciente "1" -- "0..*" Reseña : escribe
+Terapeuta "1" -- "0..*" Reseña : recibe
+
+Usuario "1" -- "0..*" Notificacion : recibe
+
+Paciente --> FiltroBusqueda : usa
+
+@enduml
